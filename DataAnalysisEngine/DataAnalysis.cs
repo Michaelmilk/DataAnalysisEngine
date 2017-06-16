@@ -24,6 +24,12 @@ namespace DataAnalysisEngine
 
         }
 
+        private bool IsDecimal(string input)
+        {
+            decimal output;
+            return decimal.TryParse(input, out output);
+        }
+
         private bool IsInteger(string input)
         {
             int output = -1;
