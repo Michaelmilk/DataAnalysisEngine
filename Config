@@ -1,0 +1,37 @@
+{
+	//Rules
+	"IsExist": [
+		{
+			"Id": 1,
+			"Predicte": "NodeKey.Events.Name"
+		},
+		{
+			"Id": 2,
+			"Predicte": "NodeKey.Events.EventId"
+		}
+	],
+	"IsCapitalization": [
+		{
+			"Id": 3,
+			"Predicate":"NodeKey.Events.Name"
+		}
+	],
+	"Less": [
+		{
+			"Id": 4,
+			"Predicte": "NodeKey.Events",
+			"Value": "30"
+		}
+	],
+
+
+
+	//Logic Operators
+	"And": [
+		{
+			"operand1": 1,
+			"operand2": 3
+		}
+	]
+
+}
