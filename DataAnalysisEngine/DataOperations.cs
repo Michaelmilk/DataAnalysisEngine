@@ -42,6 +42,26 @@ namespace DataAnalysisEngine
             return !string.IsNullOrEmpty(input) && input.All(char.IsLower);
         }
 
+        public static bool LengthLonger(string input, int length)
+        {
+            return input.Length > length;
+        }
+
+        public static bool LengthShorter(string input, int length)
+        {
+            return input.Length < length;
+        }
+
+        public static bool LengthLongerOrEqual(string input, int length)
+        {
+            return input.Length >= length;
+        }
+
+        public static bool LengthShorterOrEqual(string input, int length)
+        {
+            return input.Length <= length;
+        }
+
         public static bool ContainNumber(string input)
         {
             //return input.Any(t => char.IsDigit(t));
