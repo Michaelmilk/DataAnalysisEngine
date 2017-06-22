@@ -19,8 +19,9 @@ namespace DataAnalysisEngine
 
             //Mix.JsonPathSample();
 
-            FlattenJsonWithoutArrayIndex();
+            //FlattenJsonWithoutArrayIndex();
 
+            
         }
 
         static public bool CheckJsonPathExistence()
