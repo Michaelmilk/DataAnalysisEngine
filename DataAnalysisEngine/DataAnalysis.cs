@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAnalysisEngine
 {
-    class DataAnalysis
+    public class DataAnalysis
     {
         static public void RangeAnalysis()
         {
