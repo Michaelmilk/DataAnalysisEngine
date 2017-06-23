@@ -19,7 +19,7 @@ namespace DataAnalysisEngine
 
             //Mix.JsonPathSample();
 
-            //FlattenJsonWithoutArrayIndex();
+            FlattenJsonWithoutArrayIndex();
 
             
         }
