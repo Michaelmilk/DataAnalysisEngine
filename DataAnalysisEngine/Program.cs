@@ -19,9 +19,10 @@ namespace DataAnalysisEngine
 
             //Mix.JsonPathSample();
 
-            FlattenJsonWithoutArrayIndex();
+            //FlattenJsonWithoutArrayIndex();
+            FlattenJsonWithArrayIndex();
 
-            
+
         }
 
         static public bool CheckJsonPathExistence()
@@ -47,7 +48,7 @@ namespace DataAnalysisEngine
                 line = rd.ReadLine();
             }
 
-            var dict = JsonFlatten.FlattenWithoutArrayIndex(line);
+            var dict = JsonFlatten.Flatten(line, false);
             using (var wr = new StreamWriter(@"D:\E\FlattenedJsonWithoutArrayIndex"))
             {
                 foreach (var kvp in dict)
@@ -69,7 +70,7 @@ namespace DataAnalysisEngine
         /// installations.1.installationstatus.installationstatus: NEW
         /// installations.1.isactive: False
         /// </summary>
-        public static void FlattenJson1()
+        public static void FlattenJsonWithArrayIndex()
         {
             string line = string.Empty;
             using (var rd = new StreamReader(@".\sampleJson"))
@@ -77,7 +78,7 @@ namespace DataAnalysisEngine
                 line = rd.ReadLine();
             }
 
-            var dict = JsonFlatten.Flatten(line);
+            var dict = JsonFlatten.Flatten(line, true);
             using (var wr = new StreamWriter(@"D:\E\FlattenedJson"))
             {
                 foreach (var kvp in dict)
@@ -107,7 +108,7 @@ namespace DataAnalysisEngine
                 line = rd.ReadLine();
             }
 
-            var dict = JsonFlatten.Flatten(line);
+            var dict = JsonFlatten.Flatten(line, true);
             using (var wr = new StreamWriter(@"D:\E\FlattenedJson2"))
             {
                 foreach (var kvp in dict)

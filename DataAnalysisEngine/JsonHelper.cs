@@ -17,31 +17,23 @@ namespace DataAnalysisEngine
 
     public static class JsonFlatten
     {
-        public static Dictionary<string, object> Flatten(string json)
-        {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            JToken token = JToken.Parse(json);
-            FillDictionaryFromJToken(dict, token, "");
-            return dict;
-        }
-
-        public static List<KeyValuePair<string, object>> FlattenWithoutArrayIndex(string json)
+        public static List<KeyValuePair<string, object>> Flatten(string json, bool withArryIndex)
         {
             List<KeyValuePair<string, object>> dict = new List<KeyValuePair<string, object>>();
             JToken token = JToken.Parse(json);
-            FillDictionaryFromJToken(dict, token, "");
+            GeneratePathToValuePairs(dict, token, "", withArryIndex);
             return dict;
         }
 
-        private static void FillDictionaryFromJToken(List<KeyValuePair<string, object>> dict, JToken token,
-            string prefix)
+        private static void GeneratePathToValuePairs(List<KeyValuePair<string, object>> dict, JToken token,
+            string prefix, bool withArrayIndex)
         {
             switch (token.Type)
             {
                 case JTokenType.Object:
                     foreach (JProperty prop in token.Children<JProperty>())
                     {
-                        FillDictionaryFromJToken(dict, prop.Value, Join(prefix, prop.Name));
+                        GeneratePathToValuePairs(dict, prop.Value, Join(prefix, prop.Name), withArrayIndex);
                     }
 
                     break;
@@ -49,39 +41,21 @@ namespace DataAnalysisEngine
                     int index = 0;
                     foreach (JToken value in token.Children())
                     {
-                        FillDictionaryFromJToken(dict, value, prefix);
+                        if (withArrayIndex)
+                        {
+                            GeneratePathToValuePairs(dict, value, Join(prefix, index.ToString()), withArrayIndex);
+                        }
+                        else
+                        {
+                            GeneratePathToValuePairs(dict, value, prefix, withArrayIndex);
+                        }
+
                         index++;
                     }
 
                     break;
                 default:
-                    dict.Add(new KeyValuePair<string, object>(prefix, ((JValue) token).Value));
-                    break;
-            }
-        }
-
-        private static void FillDictionaryFromJToken(Dictionary<string, object> dict, JToken token, string prefix)
-        {
-            switch (token.Type)
-            {
-                case JTokenType.Object:
-                    foreach (JProperty prop in token.Children<JProperty>())
-                    {
-                        FillDictionaryFromJToken(dict, prop.Value, Join(prefix, prop.Name));
-                    }
-
-                    break;
-                case JTokenType.Array:
-                    int index = 0;
-                    foreach (JToken value in token.Children())
-                    {
-                        FillDictionaryFromJToken(dict, value, Join(prefix, index.ToString()));
-                        index++;
-                    }
-
-                    break;
-                default:
-                    dict.Add(prefix, ((JValue)token).Value);
+                    dict.Add(new KeyValuePair<string, object>(prefix, ((JValue)token).Value));
                     break;
             }
         }
