@@ -187,6 +187,17 @@ namespace TechTest
             Console.WriteLine(s);
         }
 
+        public static void AnyTest()
+        {
+            List<string> existing = new List<string> { "a", "b", "c" };
+            List<string> current = new List<string> { "aa" };
+            if (existing.Any(current.Contains))
+            {
+                Console.WriteLine("in");
+            }
+            Console.WriteLine("out");
+        }
+
         public static void StopwatchTest()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
