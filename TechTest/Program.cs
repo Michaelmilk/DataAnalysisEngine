@@ -103,7 +103,94 @@ namespace TechTest
 
             //Console.WriteLine(JobType.DataAnalysis.ToString());
 
-            StringToEnum();
+            //StringToEnum();
+            //UTCTimeTest();
+
+            //ConvertDictToStringParam();
+
+            //ExtractSubstr();
+
+            //Console.WriteLine("ecf10e66-bb5a-4e74-846f-dcbd58777d19".Length);
+
+            //IScopeFormat();
+
+            TimeSpanTest();
+        }
+
+        public static void TimeSpanTest()
+        {
+            DateTime t1 = DateTime.UtcNow;
+            Thread.Sleep(5000);
+            DateTime t2 = DateTime.UtcNow;
+            
+
+            Console.WriteLine(TimeSpan.FromTicks((t2 - t1).Ticks).TotalSeconds);
+            Console.WriteLine((t2 - t1).TotalSeconds);
+        }
+
+        public static void IScopeFormat()
+        {
+            string scriptFormat = @"
+                EntitySpaceBaseStream =
+                    SSTREAM ""{0}"";
+
+                Result = SELECT DISTINCT TOP {1}
+                    ExternalId
+                FROM EntitySpaceBaseStream
+                WHERE JsonPath == ""{2}"" AND Value == ""{3}"";
+
+                OUTPUT Result TO CONSOLE;";
+            string value = "\"AWI\"";//"'''Michael";
+            if (value.Contains("\"") || value.Contains("'"))
+            {
+                value = value.Replace("\"", "\\\"");
+            }
+            Console.WriteLine(value);
+            string iScopeScript = string.Format(scriptFormat, "/local/EntitySpace-Prod/Satori/Sources/BaseStreamFolder/XingFeed/v0_2/Fact.Base.ss", 10,
+                "Person.familyName", value);
+
+            Console.WriteLine(iScopeScript);
+        }
+
+        public static void ExtractSubstr()
+        {
+            var s = "Submitting the job 13a578f2-b324-41d5-8278-5ab07ceec09c ...";
+            int pos = s.IndexOf(" ...", StringComparison.Ordinal);
+            int pos2 = s.IndexOf("job ",StringComparison.Ordinal);
+            Console.WriteLine("{0} : {1}", pos, pos2);
+            var subStr = s.Substring(0, pos);
+            subStr = subStr.Replace("Submitting the job ", "");
+            Console.WriteLine(subStr);
+        }
+
+        private static string ConvertDictToStringParam(Dictionary<string, string> parameters)
+        {
+            return parameters.Aggregate(string.Empty, (current, parameter) => current + (" -params " + parameter.Key + $"=\\\"{parameter.Value}\\\""));
+        }
+
+        public static string ToCosmosParam(string value)
+        {
+            return string.Format(@"@""{0}""", value);
+        }
+
+        public static string ConvertDictToStringParam()
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                {"OutputPath", ToCosmosParam("/users/jixge/scopeTest/DataAnalysis/outlook_sports3/")},
+                {"JobKind", ToCosmosParam("DataAnalysis")},
+                {"RelativeEntitySpaceStreamPath", ToCosmosParam("/local/EntitySpace-Prod/Satori/Sources/BaseStreamFolder/Outlook_Sports/v0_1/Fact.Base.ss")}
+            };
+            var str =  parameters.Aggregate(string.Empty, (current, parameter) => current + (" -params " + parameter.Key + $"=\\\"{parameter.Value}\\\""));
+            var vc = "https://cosmos08.osdinfra.net/cosmos/Knowledge/";
+            int priority = 1000;
+            int vcPercentAllocation = 5;
+            //string cmdParam = $"submit -i DataAnalysis.script –vc {vc} -p {priority} -vcp {vcPercentAllocation} {ConvertDictToStringParam()}";
+            string cmdParam = $"submit -i DataAnalysis.script –vc {vc} -p {priority} -vcp {vcPercentAllocation} {ConvertDictToStringParam(parameters)}";
+            //cmdParam = cmdParam.Replace("@\"")
+            Console.WriteLine(cmdParam);
+            Console.WriteLine(str);
+            return str;
         }
 
         public static void StringToEnum()
