@@ -26,9 +26,9 @@ namespace DataAnalysisEngine
 
             //FlattenAllJsonPaths();
 
-            FlattenJsonByPath();
+            //FlattenJsonByPath();
 
-            //Mix.NewTonJsonSample();
+            Mix.NewTonJsonSample();
         }
 
         static public bool CheckJsonPathExistence()

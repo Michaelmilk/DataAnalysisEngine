@@ -168,6 +168,8 @@ namespace DataAnalysisEngine
             Console.WriteLine(string.Join(", ", storeNames));
             // Lambton Quay, Willis Street
 
+
+            var obj = o["Manufacturers.Products"];
             //string[] productNames = o["Manufacturers.Products"].Select(m => m.Cast<JProperty>()).Select(t => t.n)
             //.Where(n => n != null).ToArray();
             //Console.WriteLine(string.Join(", ", productNames));
