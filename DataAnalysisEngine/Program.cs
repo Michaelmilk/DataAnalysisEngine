@@ -20,14 +20,58 @@ namespace DataAnalysisEngine
             //Mix.JsonPathSample();
 
             //FlattenJsonWithoutArrayIndex();
-            FlattenJsonWithArrayIndex();
+            //FlattenJsonWithArrayIndex();
 
+            //Mix.ParseJsonObject();
 
+            //FlattenAllJsonPaths();
+
+            FlattenJsonByPath();
+
+            //Mix.NewTonJsonSample();
         }
 
         static public bool CheckJsonPathExistence()
         {
             return false;
+        }
+
+        public static void FlattenJsonByPath()
+        {
+            string line = string.Empty;
+            using (var rd = new StreamReader(@".\sampleJson"))
+            {
+                line = rd.ReadLine();
+            }
+
+            //var jsonPaths = JsonFlatten.FlattenJsonByPath(line, "nodeKey.Events.Name");
+            var jsonPaths = JsonFlatten.FlattenJsonByPath(line, "nodeKey.__SubjectId__");
+
+            if (jsonPaths.Value.GetType() == typeof(List<string>))
+            {
+                var values = jsonPaths.Value as List<string>;
+                values.ForEach(t => Console.WriteLine(t));
+            }
+
+            if (jsonPaths.Value.GetType() == typeof(string))
+            {
+                var value = jsonPaths.Value as string;
+                Console.WriteLine(value);
+            }
+            //jsonPaths.ForEach(t => Console.WriteLine("{0}: {1}", t.Key, t.Value));
+        }
+
+        public static void FlattenAllJsonPaths()
+        {
+            string line = string.Empty;
+            using (var rd = new StreamReader(@".\sampleJson"))
+            {
+                line = rd.ReadLine();
+            }
+
+            var jsonPaths = JsonFlatten.FlattenAllJsonPaths(line, false);
+
+            jsonPaths.ForEach(t => Console.WriteLine(t));
         }
 
         /// <summary>

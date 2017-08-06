@@ -102,8 +102,15 @@ namespace DataAnalysisEngine
             {
                 Console.WriteLine("is Jarray");
                 //var eventNames = data.SelectToken("$.Events[?(@.ToBeAnnounced == 'false')].Name");
-                var eventNames = data.SelectToken("$.Events[0].Name");
-                Console.WriteLine(eventNames.ToString());
+                //var eventName = data.SelectToken("$.Events[0].Name");
+                //Console.WriteLine(eventNames.ToString());
+                var token2 = data.SelectTokens("nodeKey.Events[*].Categories").First();
+                Console.WriteLine(token2.GetType());
+                var eventNames = data.SelectTokens("nodeKey.Events[*].Categories[*]").ToList();
+                foreach(var eventName in eventNames)
+                {
+                    Console.WriteLine(eventName);
+                }
             }
 
             //Console.WriteLine(token.Count);
@@ -121,6 +128,60 @@ namespace DataAnalysisEngine
             {
                 Console.WriteLine("ttt");
             }
+        }
+
+        public static void NewTonJsonSample()
+        {
+            JObject o = JObject.Parse(@"{
+              'Stores': [
+                'Lambton Quay',
+                'Willis Street'
+              ],
+              'Manufacturers': [
+                {
+                  'Name': 'Acme Co',
+                  'Products': [
+                    {
+                      'Name': 'Anvil',
+                      'Price': 50
+                    }
+                  ]
+                },
+                {
+                  'Name': 'Contoso',
+                  'Products': [
+                    {
+                      'Name': 'Elbow Grease',
+                      'Price': 99.95
+                    },
+                    {
+                      'Name': 'Headlight Fluid',
+                      'Price': 4
+                    }
+                  ]
+                }
+              ]
+            }");
+                    
+            string[] storeNames = o.SelectToken("Stores").Select(s => (string)s).ToArray();
+                      
+            Console.WriteLine(string.Join(", ", storeNames));
+            // Lambton Quay, Willis Street
+
+            //string[] productNames = o["Manufacturers.Products"].Select(m => m.Cast<JProperty>()).Select(t => t.n)
+            //.Where(n => n != null).ToArray();
+            //Console.WriteLine(string.Join(", ", productNames));
+
+            string[] firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name"))
+            .Where(n => n != null).ToArray();
+                     
+            Console.WriteLine(string.Join(", ", firstProductNames));
+                      // Headlight Fluid
+            
+            decimal totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+                      
+            Console.WriteLine(totalPrice);
+                      // 149.95
         }
     }
 }
