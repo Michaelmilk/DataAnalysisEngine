@@ -70,7 +70,33 @@ namespace TechTest
             //CancelTask.CancelTaskByTime();
 
 
-            RegexTest.ExtractComosNum();
+            //RegexTest.ExtractComosNum();
+
+            //StringTests.LastCharOfStr();
+
+            //FileOperation.TestDirectory();
+
+            //Time.DateTimeTest();
+
+            //WebTest.ModelVersionParse();
+
+            //StringTests.VcTest();
+
+            //StringTests.StringOrder();
+
+            //StringTests.WhereOrder();
+
+            //LinqTest.EmptyListFirstOrDefault();
+
+            //NewtonTest.TestSerialize();
+
+            //NewtonTest.SerializeNull();
+
+            //var isNew = StringTests.IsNewViewVersion("200.6.0", "201.3.0");
+
+            //Console.WriteLine("isNew", isNew);
+
+            StringTests.IndexOfCaseInsensitive();
         }
     }
 }

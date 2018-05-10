@@ -15,7 +15,7 @@ namespace DataAnalysisEngine
         }
     }
 
-    public static class JsonFlatten
+    public class JsonFlatten
     {
         public static List<string> FlattenAllJsonPaths(string json, bool withArryIndex)
         {
